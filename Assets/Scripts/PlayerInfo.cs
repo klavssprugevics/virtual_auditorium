@@ -10,6 +10,9 @@ public class PlayerInfo : NetworkBehaviour
     public string userName;
 
     [SyncVar]
+    public bool isTalking;
+
+    [SyncVar]
     public Color color;
 
     void Start()
@@ -17,6 +20,7 @@ public class PlayerInfo : NetworkBehaviour
         // Debug.Log("Created a new user with name: " + userName);
         gameObject.transform.Find("Name").gameObject.GetComponent<TextMesh>().text = userName;
         gameObject.GetComponent<Renderer>().material.SetColor("_Color", color);
+        isTalking = false;
 
     }
 }

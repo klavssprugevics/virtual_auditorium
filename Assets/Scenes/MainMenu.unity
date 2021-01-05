@@ -3475,7 +3475,7 @@ PrefabInstance:
     - target: {fileID: 3372544827107101184, guid: ede06054e92338246b53a68243098fbd,
         type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3372544827107101184, guid: ede06054e92338246b53a68243098fbd,
         type: 3}
@@ -3521,6 +3521,12 @@ PrefabInstance:
       propertyPath: colorPicker
       value: 
       objectReference: {fileID: 1498497324}
+    - target: {fileID: 3372544827107101184, guid: ede06054e92338246b53a68243098fbd,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 5136696912607782073, guid: 4c5641bbcc68b3d44bb858230b878955,
+        type: 3}
     - target: {fileID: 3372544827107101187, guid: ede06054e92338246b53a68243098fbd,
         type: 3}
       propertyPath: m_LocalPosition.x

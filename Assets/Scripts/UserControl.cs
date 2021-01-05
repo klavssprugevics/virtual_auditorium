@@ -10,6 +10,7 @@ public class UserControl : NetworkBehaviour
     private Transform cameraTransform;
     private Transform User;
     private Vector3 Position;
+    private PlayerInfo info;
 
     public NetworkIdentity networkIdentity;
     public int MovementSpeed = 5;
@@ -21,7 +22,7 @@ public class UserControl : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
         User = GetComponent<Transform>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
-        
+        info = User.GetComponent<PlayerInfo>();
     }
 
     void Update()
@@ -30,6 +31,16 @@ public class UserControl : NetworkBehaviour
         {
             CameraLook();
             Move();
+
+
+            if(Input.GetKey("t"))
+            {
+                info.isTalking = true;
+            }
+            else
+            {
+                info.isTalking = false;
+            }
         }
         else
         {
