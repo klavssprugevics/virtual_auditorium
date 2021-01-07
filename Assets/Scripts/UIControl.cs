@@ -9,6 +9,7 @@ public class UIControl : NetworkBehaviour
     public GameObject[] userObjectList;
     public Text speakingInfoBox;
 
+
     void Start()
     {
         // Ideally should be updated when someone joins/leaves
@@ -29,6 +30,7 @@ public class UIControl : NetworkBehaviour
                 speaking = speaking + info.userName + "\n"; 
             }
         }
+
         speakingInfoBox.text = speaking;
     }
 

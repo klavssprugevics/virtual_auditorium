@@ -21,9 +21,13 @@ public class UserControl : NetworkBehaviour
     public int MovementSpeed = 5;
     public int Sensitivity = 1;
 
+    private bool mouseLock = true;
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         characterController = GetComponent<CharacterController>();
         User = GetComponent<Transform>();
         fpCamera = GetComponentInChildren<Camera>();
@@ -52,10 +56,14 @@ public class UserControl : NetworkBehaviour
 
         if(isLocalPlayer)
         {
-            CameraLook();
+            if(mouseLock)
+                CameraLook();
+
+
             Move();
             info = User.GetComponent<PlayerInfo>();
 
+            // Push to talk
             if(Input.GetKey("t"))
             {
                 CmdIsTalk(info);
@@ -65,6 +73,7 @@ public class UserControl : NetworkBehaviour
                 CmdIsNotTalk(info);
             }
 
+            // Maina kameras
             if(Input.GetKeyDown("1"))
             {
                 print("Switching to first person camera");
@@ -85,6 +94,24 @@ public class UserControl : NetworkBehaviour
                 fpCamera.enabled = false;
                 audCamera.enabled = false;
                 screenCamera.enabled = true;
+            }
+
+            // Lock-unlock kursoru
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                switch(Cursor.lockState)
+                {
+                    case CursorLockMode.None:
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                        mouseLock = true;
+                        break;
+                    case CursorLockMode.Locked:
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                        mouseLock = false;
+                        break;
+                }
             }
         }
         else
