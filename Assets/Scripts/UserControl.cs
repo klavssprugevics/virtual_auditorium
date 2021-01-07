@@ -22,30 +22,44 @@ public class UserControl : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
         User = GetComponent<Transform>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
-        info = User.GetComponent<PlayerInfo>();
+        
     }
 
     void Update()
     {
+
         if(isLocalPlayer)
         {
             CameraLook();
             Move();
-
+            info = User.GetComponent<PlayerInfo>();
 
             if(Input.GetKey("t"))
             {
-                info.isTalking = true;
+                CmdIsTalk(info);
             }
             else
             {
-                info.isTalking = false;
+                CmdIsNotTalk(info);
             }
+
         }
         else
         {
             cameraTransform.gameObject.SetActive(false);
         }
+    }
+
+    [Command]
+    public void CmdIsTalk(PlayerInfo info)
+    {
+        info.isTalking = true;
+    }
+
+    [Command]
+    public void CmdIsNotTalk(PlayerInfo info)
+    {
+        info.isTalking = false;
     }
 
     void CameraLook()

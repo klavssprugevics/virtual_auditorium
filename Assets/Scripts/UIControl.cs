@@ -19,7 +19,7 @@ public class UIControl : NetworkBehaviour
     {
         userObjectList = GameObject.FindGameObjectsWithTag("User");
         string speaking = "";
-        print("Users in room: " + userObjectList.Length);
+        // print("Users in room: " + userObjectList.Length);
         foreach(GameObject user in userObjectList)
         {
             PlayerInfo info = user.GetComponent<PlayerInfo>();
@@ -29,7 +29,6 @@ public class UIControl : NetworkBehaviour
                 speaking = speaking + info.userName + "\n"; 
             }
         }
-        print(speaking);
         speakingInfoBox.text = speaking;
     }
 
