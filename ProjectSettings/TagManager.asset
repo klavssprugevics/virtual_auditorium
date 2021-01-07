@@ -9,6 +9,7 @@ TagManager:
   - Screen
   - Canvas
   - dirPanel
+  - Camera
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,11 @@ public class UserControl : NetworkBehaviour
     private Vector3 Position;
     private PlayerInfo info;
 
+    // Kameru references
+    private Camera fpCamera;
+    private Camera audCamera;
+    private Camera screenCamera;
+
     public NetworkIdentity networkIdentity;
     public int MovementSpeed = 5;
     public int Sensitivity = 1;
@@ -21,8 +26,25 @@ public class UserControl : NetworkBehaviour
     {
         characterController = GetComponent<CharacterController>();
         User = GetComponent<Transform>();
-        cameraTransform = GetComponentInChildren<Camera>().transform;
-        
+        fpCamera = GetComponentInChildren<Camera>();
+        cameraTransform = fpCamera.transform;
+
+
+        GameObject[] cameraList = GameObject.FindGameObjectsWithTag("Camera");
+
+        // Atrod kameras instances 
+        foreach(var camera in cameraList)
+        {
+            if(camera.name == "MainCamera")
+            {
+                audCamera = camera.GetComponent<Camera>();
+            }
+            if(camera.name == "ScreenCamera")
+            {
+                screenCamera = camera.GetComponent<Camera>();
+            }
+        }
+
     }
 
     void Update()
@@ -43,6 +65,27 @@ public class UserControl : NetworkBehaviour
                 CmdIsNotTalk(info);
             }
 
+            if(Input.GetKeyDown("1"))
+            {
+                print("Switching to first person camera");
+                screenCamera.enabled = false;
+                audCamera.enabled = false;
+                fpCamera.enabled = true;
+            }
+            else if(Input.GetKeyDown("2"))
+            {
+                print("Switching to auditorium camera");
+                fpCamera.enabled = false;
+                screenCamera.enabled = false;
+                audCamera.enabled = true;
+            }
+            else if(Input.GetKeyDown("3"))
+            {
+                print("Switching to screen camera");
+                fpCamera.enabled = false;
+                audCamera.enabled = false;
+                screenCamera.enabled = true;
+            }
         }
         else
         {
