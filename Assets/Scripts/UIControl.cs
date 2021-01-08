@@ -31,6 +31,7 @@ public class UIControl : NetworkBehaviour
                 speaking = speaking + info.userName + "\n"; 
             }
         }
+        print(speaking);
 
         speakingInfoBox.text = speaking;
     }

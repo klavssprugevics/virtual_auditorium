@@ -34,6 +34,9 @@ public class UserControl : NetworkBehaviour
 
     private bool typing = false;
 
+    // Info box
+    public GameObject infoBox;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -62,7 +65,10 @@ public class UserControl : NetworkBehaviour
             // Atrod chata instanci
 
         if(!isLocalPlayer)
+        {
+            infoBox.SetActive(false);
             chat.SetActive(false);
+        }
     }
 
     void Update()
@@ -110,6 +116,12 @@ public class UserControl : NetworkBehaviour
                     audCamera.enabled = false;
                     screenCamera.enabled = true;
                 }
+            }
+
+            // Toggle control menu
+            if(Input.GetKeyDown(KeyCode.F1))
+            {
+                infoBox.SetActive(!infoBox.active);
             }
 
             // Lock-unlock kursoru
