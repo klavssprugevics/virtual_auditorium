@@ -10,6 +10,7 @@ TagManager:
   - Canvas
   - dirPanel
   - Camera
+  - Chat
   layers:
   - Default
   - TransparentFX

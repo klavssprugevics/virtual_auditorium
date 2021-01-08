@@ -22,6 +22,7 @@ public class Whiteboard : NetworkBehaviour
     public Texture2D activeTexture;
     private Texture2D receivedTexture;
     
+    private bool inputLock;
 
     // Start is called before the first frame update
     void Start()
@@ -66,27 +67,40 @@ public class Whiteboard : NetworkBehaviour
         // Tikai hosts var mainit slaidus
         if(isServer && isClient)
         {
-            if(Input.GetKeyDown("e"))
+            if(!inputLock)
             {
-                if(imageIndex < imageList.Length - 1)
+                if(Input.GetKeyDown("e"))
                 {
-                    imageIndex++;
-                    activeTexture = imageList[imageIndex];
+                    if(imageIndex < imageList.Length - 1)
+                    {
+                        imageIndex++;
+                        activeTexture = imageList[imageIndex];
 
-                    // Nosuta visiem client jauno slaidu
-                    RpcSlide(activeTexture.EncodeToJPG());
+                        // Nosuta visiem client jauno slaidu
+                        RpcSlide(activeTexture.EncodeToJPG());
+                    }
+                }
+                else if(Input.GetKeyDown("q"))
+                {
+                    if(imageIndex > 0)
+                    {
+                        imageIndex--;
+                        activeTexture = imageList[imageIndex];
+
+                        // Nosuta visiem client jauno slaidu
+                        RpcSlide(activeTexture.EncodeToJPG());
+                    }
                 }
             }
-            else if(Input.GetKeyDown("q"))
-            {
-                if(imageIndex > 0)
-                {
-                    imageIndex--;
-                    activeTexture = imageList[imageIndex];
 
-                    // Nosuta visiem client jauno slaidu
-                    RpcSlide(activeTexture.EncodeToJPG());
-                }
+
+            if(Input.GetKeyDown("y"))
+            {
+                inputLock = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                inputLock = false;
             }
         }
     }

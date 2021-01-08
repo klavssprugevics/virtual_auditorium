@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
@@ -21,7 +22,17 @@ public class UserControl : NetworkBehaviour
     public int MovementSpeed = 5;
     public int Sensitivity = 1;
 
-    private bool mouseLock = true;
+    private bool inputLock = false;
+
+    // Chatam
+    // public GameObject chatPrefab;
+    public GameObject chat;
+    public InputField inputField;
+    public Text inputText;
+    public Text chatBox;
+    public Text placeHolderText;
+
+    private bool typing = false;
 
     void Start()
     {
@@ -32,7 +43,6 @@ public class UserControl : NetworkBehaviour
         User = GetComponent<Transform>();
         fpCamera = GetComponentInChildren<Camera>();
         cameraTransform = fpCamera.transform;
-
 
         GameObject[] cameraList = GameObject.FindGameObjectsWithTag("Camera");
 
@@ -49,6 +59,10 @@ public class UserControl : NetworkBehaviour
             }
         }
 
+            // Atrod chata instanci
+
+        if(!isLocalPlayer)
+            chat.SetActive(false);
     }
 
     void Update()
@@ -56,68 +70,125 @@ public class UserControl : NetworkBehaviour
 
         if(isLocalPlayer)
         {
-            if(mouseLock)
-                CameraLook();
 
-
-            Move();
             info = User.GetComponent<PlayerInfo>();
 
-            // Push to talk
-            if(Input.GetKey("t"))
+            if(!inputLock)
             {
-                CmdIsTalk(info);
-            }
-            else
-            {
-                CmdIsNotTalk(info);
-            }
+                CameraLook();
+                // Move();
 
-            // Maina kameras
-            if(Input.GetKeyDown("1"))
-            {
-                print("Switching to first person camera");
-                screenCamera.enabled = false;
-                audCamera.enabled = false;
-                fpCamera.enabled = true;
-            }
-            else if(Input.GetKeyDown("2"))
-            {
-                print("Switching to auditorium camera");
-                fpCamera.enabled = false;
-                screenCamera.enabled = false;
-                audCamera.enabled = true;
-            }
-            else if(Input.GetKeyDown("3"))
-            {
-                print("Switching to screen camera");
-                fpCamera.enabled = false;
-                audCamera.enabled = false;
-                screenCamera.enabled = true;
+                // Push to talk
+                if(Input.GetKey("t"))
+                {
+                    CmdIsTalk(info);
+                }
+                else
+                {
+                    CmdIsNotTalk(info);
+                }
+
+                // Maina kameras
+                if(Input.GetKeyDown("1"))
+                {
+                    print("Switching to first person camera");
+                    screenCamera.enabled = false;
+                    audCamera.enabled = false;
+                    fpCamera.enabled = true;
+                }
+                else if(Input.GetKeyDown("2"))
+                {
+                    print("Switching to auditorium camera");
+                    fpCamera.enabled = false;
+                    screenCamera.enabled = false;
+                    audCamera.enabled = true;
+                }
+                else if(Input.GetKeyDown("3"))
+                {
+                    print("Switching to screen camera");
+                    fpCamera.enabled = false;
+                    audCamera.enabled = false;
+                    screenCamera.enabled = true;
+                }
             }
 
             // Lock-unlock kursoru
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if(Input.GetKeyDown(KeyCode.Escape) && !typing)
             {
                 switch(Cursor.lockState)
                 {
                     case CursorLockMode.None:
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
-                        mouseLock = true;
+                        inputLock = false;
                         break;
                     case CursorLockMode.Locked:
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
-                        mouseLock = false;
+                        inputLock = true;
                         break;
                 }
+
             }
+            else if(Input.GetKeyDown(KeyCode.Escape) && typing)
+            {
+                inputField.DeactivateInputField();
+                placeHolderText.text = "Press Y to chat";
+            }
+
+            // Chat
+            if(Input.GetKeyDown("y"))
+            {
+                inputField.ActivateInputField();
+                inputLock = true;
+                typing = true;
+                placeHolderText.text = "";
+            }
+            if(typing)
+            {
+                if(Input.GetKeyDown(KeyCode.Return))
+                {
+                    CmdSendMessage(info.userName + ": " + inputText.text);
+                    inputLock = false;
+                    typing = false;
+                    inputField.text = "";
+                    inputField.DeactivateInputField();
+                    placeHolderText.text = "Press Y to chat";
+                }
+            }
+
         }
         else
         {
             cameraTransform.gameObject.SetActive(false);
         }
+    }
+
+    [Command]
+    public void CmdSendMessage(string msg)
+    {
+        RpcRecieveMessage(msg);
+    }
+
+    [ClientRpc]
+    public void RpcRecieveMessage(string msg)
+    {
+        print("New message to write: " + msg);
+
+        // So var labak izdarit, bet nevaru atrast kapec neupdatojas uz visiem locally
+        foreach(var ch in GameObject.FindGameObjectsWithTag("Chat"))
+        {
+            Text instance = ch.GetComponent<Text>();
+            string currBox = instance.text + msg + "\n";
+            string[] split = currBox.Split('\n');
+            
+            // Ja vairak par 7 zinam tad izdesh vecako
+            if(split.Length > 8)
+                split = split.Where((item, index) => index != 0).ToArray();
+
+            instance.text = string.Join("\n", split);
+        }
+
     }
 
     [Command]

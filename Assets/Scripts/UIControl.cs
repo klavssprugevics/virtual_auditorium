@@ -16,6 +16,7 @@ public class UIControl : NetworkBehaviour
         userObjectList = GameObject.FindGameObjectsWithTag("User");
 
     }
+    
     void Update()
     {
         userObjectList = GameObject.FindGameObjectsWithTag("User");

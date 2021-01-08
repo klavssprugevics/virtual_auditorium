@@ -2057,7 +2057,6 @@ GameObject:
   - component: {fileID: 522522052}
   - component: {fileID: 522522057}
   - component: {fileID: 522522056}
-  - component: {fileID: 522522058}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -2179,18 +2178,6 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &522522058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522522051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc8c9b70ff95104ea42df7fb1cafce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &526050132
 GameObject:
   m_ObjectHideFlags: 0
@@ -3960,7 +3947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482619373}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.2, y: -6.868, z: 18.92}
+  m_LocalPosition: {x: 11.2, y: -6.91, z: 18.92}
   m_LocalScale: {x: 1.2, y: 2.0196977, z: 1.2}
   m_Children:
   - {fileID: 799952563}
@@ -4479,7 +4466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800683661}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.2, y: -6.4042, z: 18.6218}
+  m_LocalPosition: {x: 11.2, y: -6.4462, z: 18.6218}
   m_LocalScale: {x: 1.1999998, y: 2.9472482, z: 0.60363126}
   m_Children: []
   m_Father: {fileID: 1743132354}
