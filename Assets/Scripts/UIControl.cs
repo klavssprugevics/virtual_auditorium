@@ -40,11 +40,13 @@ public class UIControl : NetworkBehaviour
         if(NetworkManager.singleton.mode == NetworkManagerMode.Host)
         {
             NetworkManager.singleton.StopHost();
+            Application.Quit();
         }
 
         if(NetworkManager.singleton.mode == NetworkManagerMode.ClientOnly)
         {
             NetworkManager.singleton.StopClient();
+            Application.Quit();
         }
     }
 }

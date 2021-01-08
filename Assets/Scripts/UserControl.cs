@@ -128,12 +128,12 @@ public class UserControl : NetworkBehaviour
                         inputLock = true;
                         break;
                 }
-
             }
             else if(Input.GetKeyDown(KeyCode.Escape) && typing)
             {
                 inputField.DeactivateInputField();
                 placeHolderText.text = "Press Y to chat";
+                inputLock = false;
             }
 
             // Chat
