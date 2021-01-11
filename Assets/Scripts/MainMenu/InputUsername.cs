@@ -9,6 +9,7 @@ public class InputUsername : NetworkBehaviour
     // Saglabas lietotaju vardu ka unity key
     const string userName = "UserName";
     public Text nameLabel;
+    public Text nameLabel2;
 
     void Start()
     {
@@ -31,6 +32,7 @@ public class InputUsername : NetworkBehaviour
         }
 
         nameLabel.text = value;
+        nameLabel2.text = value;
         PlayerPrefs.SetString(userName, value);
     }
 

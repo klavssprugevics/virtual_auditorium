@@ -3598,6 +3598,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   nameLabel: {fileID: 1254706311}
+  nameLabel2: {fileID: 1558952557}
 --- !u!1 &1652327883
 GameObject:
   m_ObjectHideFlags: 0
